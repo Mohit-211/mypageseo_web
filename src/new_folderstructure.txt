@@ -1,0 +1,115 @@
+.
+├── app
+│   ├── about
+│   │   └── page.tsx
+│   ├── blogs
+│   │   ├── [slug]
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── contact
+│   │   └── page.tsx
+│   ├── faqs
+│   │   └── page.tsx
+│   ├── globals.css
+│   ├── industries
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── not-found.tsx
+│   ├── page.tsx
+│   ├── pricing
+│   │   └── page.tsx
+│   ├── privacy
+│   │   └── page.tsx
+│   ├── product
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── features
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── pricing
+│   │       └── page.tsx
+│   ├── services
+│   │   ├── mypageAds
+│   │   │   └── page.tsx
+│   │   ├── mypageContent
+│   │   │   └── page.tsx
+│   │   ├── mypageRepo
+│   │   │   └── page.tsx
+│   │   ├── mypageSEO
+│   │   │   └── page.tsx
+│   │   ├── mypageSMO
+│   │   │   └── page.tsx
+│   │   ├── mypageSites
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   └── terms
+│       └── page.tsx
+├── components
+│   ├── about
+│   │   ├── AboutHeroSection.tsx
+│   │   ├── ClosingCTASection.tsx
+│   │   ├── CredibilitySection.tsx
+│   │   ├── IntroductionSection.tsx
+│   │   ├── OurApproachSection.tsx
+│   │   ├── PhilosophySection.tsx
+│   │   └── WhyUsSection.tsx
+│   ├── contact
+│   │   ├── ContactSection.tsx
+│   │   └── MapSection.tsx
+│   ├── home
+│   │   ├── BoldCTASection.tsx
+│   │   ├── CredibilitySection.tsx
+│   │   ├── HeroSection.tsx
+│   │   ├── IndustriesSection.tsx
+│   │   ├── ServicesSection.tsx
+│   │   ├── StrategySection.tsx
+│   │   ├── TestimonialsSection.tsx
+│   │   └── WhyChooseSection.tsx
+│   ├── layout
+│   │   ├── Footer.tsx
+│   │   ├── NavLink.tsx
+│   │   └── Navbar.tsx
+│   ├── pricing
+│   │   ├── CustomSolutions.tsx
+│   │   ├── Differentiators.tsx
+│   │   ├── PricingBoldCTA.tsx
+│   │   ├── PricingFAQ.tsx
+│   │   ├── PricingGrid.tsx
+│   │   ├── PricingHero.tsx
+│   │   ├── PricingIntro.tsx
+│   │   ├── ValueProp.tsx
+│   │   └── WhatInfluences.tsx
+│   ├── product
+│   │   ├── BoldCTA.tsx
+│   │   ├── BuiltFor.tsx
+│   │   ├── CoreCapabilities.tsx
+│   │   ├── Differentiators.tsx
+│   │   ├── Introduction.tsx
+│   │   ├── PlatformWorkflow.tsx
+│   │   ├── ProductHero.tsx
+│   │   └── WhiteLabel.tsx
+│   ├── services
+│   │   ├── BoldCTASection.tsx
+│   │   ├── Differentiators.tsx
+│   │   ├── Industries.tsx
+│   │   ├── IntroSection.tsx
+│   │   ├── ServiceCards.tsx
+│   │   ├── ServicesHero.tsx
+│   │   └── WorkflowSection.tsx
+│   └── ui
+│       ├── button.tsx
+│       ├── dialog.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── skeleton.tsx
+│       ├── toggle.tsx
+│       └── tooltip.tsx
+├── hooks
+│   └── use-mobile.tsx
+├── lib
+│   └── utils.ts
+└── structure.txt
+
+33 directories, 80 files
