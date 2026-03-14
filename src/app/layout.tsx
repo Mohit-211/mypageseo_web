@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     siteName: "MyPageSEO",
     images: [
       {
-        url: "/assets/og-image.jpg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "MyPageSEO SEO Reporting Platform",
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     title: "MyPageSEO – Local SEO Reporting Software",
     description:
       "Powerful local SEO reporting software with white-label reports for agencies.",
-    images: ["/assets/og-image.jpg"],
+    images: ["/og-image.png"],
   },
 
   robots: {
