@@ -17,7 +17,7 @@ const HeroSection = () => (
       <div className="max-w-3xl space-y-7">
         <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 rounded-full px-5 py-2 text-sm text-accent font-semibold">
           <MapPin className="w-4 h-4" />
-          Local SEO Agency — India & North America
+          Local SEO Agency — India, Europe and The Caribbean
         </div>
 
         <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-heading font-bold leading-[1.08] text-primary-foreground">
@@ -30,7 +30,7 @@ const HeroSection = () => (
           visibility, drive real inquiries, and win in competitive markets. We
           specialize in Google Business Profile optimization, map pack
           dominance, citation consistency, and conversion-focused local
-          strategies — across India and North America.
+          strategies across India, Europe and The Caribbean.
         </p>
 
         <div className="flex flex-wrap gap-4 pt-3">

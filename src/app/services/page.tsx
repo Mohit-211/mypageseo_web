@@ -11,7 +11,7 @@ import { BoldCTASection } from "@/components/services/BoldCTASection";
 export const metadata: Metadata = {
   title: "Local SEO & Digital Marketing Services | MyPageSEO",
   description:
-    "Explore MyPageSEO's precision-driven local SEO, Google Maps optimization, citation management, reputation growth, and paid advertising services for businesses across India and North America.",
+    "Explore MyPageSEO's precision-driven local SEO, Google Maps optimization, citation management, reputation growth, and paid advertising services for businesses across India, Europe and The Caribbean.",
 };
 
 export default function ServicesPage() {

@@ -11,6 +11,7 @@ import Script from "next/script";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
+import { cookies } from "next/headers";
 
 /* ---------------- Fonts ---------------- */
 
@@ -114,10 +115,17 @@ export const viewport: Viewport = {
 
 /* ---------------- Root Layout ---------------- */
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const cookieStore = await cookies();
+  const currency = cookieStore.get("currency")?.value || "INR";
   return (
     <html lang="en">
       <body
+        data-currency={currency}
         className={`${dmSans.variable} ${spaceGrotesk.variable} font-body antialiased`}
       >
         <TooltipProvider>
@@ -186,7 +194,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             url: "https://mypageseo.com",
             offers: {
               "@type": "Offer",
-              priceCurrency: "USD",
+              priceCurrency: currency,
               availability: "https://schema.org/InStock",
             },
           })}

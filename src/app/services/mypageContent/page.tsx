@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageContent | SEO Content Strategy | MyPageSEO",
   description:
-    "mypageContent delivers structured, locally targeted, search-optimized content strategies that drive rankings, visibility, and measurable organic growth across India and North America.",
+    "mypageContent delivers structured, locally targeted, search-optimized content strategies that drive rankings, visibility, and measurable organic growth across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -50,7 +50,7 @@ const Hero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageContent focuses on search-optimized, locally targeted, and
           conversion-focused content development — driving organic visibility
-          and qualified inquiries across India and North America.
+          and qualified inquiries across India, Europe and The Caribbean.
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>

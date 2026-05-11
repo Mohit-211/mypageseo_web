@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageAds | Paid Advertising Service | MyPageSEO",
   description:
-    "mypageAds delivers structured, ROI-focused Google Ads campaigns for businesses across India and North America. Controlled visibility, measurable lead flow, scalable growth.",
+    "mypageAds delivers structured, ROI-focused Google Ads campaigns for businesses across India, Europe and The Caribbean. Controlled visibility, measurable lead flow, scalable growth.",
 };
 
 /* ═══ HERO ═══ */
@@ -49,8 +49,8 @@ const Hero = () => (
         </h1>
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageAds focuses on high-intent, location-targeted campaigns designed
-          to generate qualified leads and measurable ROI — across India and
-          North America. Every rupee and dollar works toward growth.
+          to generate qualified leads and measurable ROI — across India, Europe
+          and The Caribbean. Every rupee and dollar works toward growth.
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>

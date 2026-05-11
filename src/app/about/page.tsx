@@ -9,7 +9,7 @@ import { CredibilitySection } from "@/components/about/CredibilitySection";
 import { ClosingCTASection } from "@/components/about/ClosingCTASection";
 
 export const metadata: Metadata = {
-  title: "About MyPageSEO | Local SEO Agency India & North America",
+  title: "About MyPageSEO | Local SEO Agency India, Europe & The Caribbean",
   description:
     "Learn about MyPageSEO — a local SEO agency operating under Devereaux and Bhagat Private Limited, specializing in Google Maps rankings, citation consistency, and measurable local growth.",
 };

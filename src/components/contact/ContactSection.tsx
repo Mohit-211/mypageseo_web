@@ -277,7 +277,7 @@ export default function ContactSection() {
                       Location
                     </h4>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Noida Sector-62, India
+                      Serving Globally
                     </p>
                   </div>
                 </div>
@@ -302,7 +302,7 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div className="p-6 rounded-xl bg-card border border-border shadow-card">
+              {/* <div className="p-6 rounded-xl bg-card border border-border shadow-card">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <Phone className="w-5 h-5 text-primary" />
@@ -319,7 +319,7 @@ export default function ContactSection() {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="p-6 rounded-xl bg-card border border-border shadow-card">
                 <div className="flex items-start gap-4">
@@ -331,7 +331,7 @@ export default function ContactSection() {
                       Service Regions
                     </h4>
                     <p className="text-sm text-muted-foreground mt-1">
-                      India & North America
+                      India, Europe and The Caribbean
                     </p>
                   </div>
                 </div>

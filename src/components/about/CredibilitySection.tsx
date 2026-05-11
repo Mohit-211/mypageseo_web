@@ -10,7 +10,7 @@ const CredibilitySection = () => (
 
         <p className="text-muted-foreground text-[1.05rem] leading-relaxed">
           MyPageSEO operates from Noida Sector-62, India, and serves clients
-          across both Indian and North American markets. Our agency is
+          across Indian, European and The Caribbean markets. Our agency is
           structured for long-term partnerships — not short-term projects. We
           commit to accountability in every engagement, consistency in
           execution, and measurable outcomes in every report. When you work with
@@ -21,7 +21,7 @@ const CredibilitySection = () => (
         <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 pt-4">
           {[
             "Noida Sector-62 HQ",
-            "India & North America",
+            "India, Europe and The Caribbean.",
             "Long-Term Partnerships",
             "Accountability-Driven",
           ].map((tag) => (

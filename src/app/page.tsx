@@ -12,7 +12,7 @@ import { BoldCTASection } from "@/components/home/BoldCTASection";
 export const metadata: Metadata = {
   title: "Local SEO Agency | Google Maps Optimization | MyPageSEO",
   description:
-    "MyPageSEO helps local businesses dominate Google Maps and local search results across India and North America. Specialized in GBP optimization, citation consistency, and measurable local growth.",
+    "MyPageSEO helps local businesses dominate Google Maps and local search results across India, Europe and The Caribbean. Specialized in GBP optimization, citation consistency, and measurable local growth.",
 };
 
 export default function HomePage() {

@@ -63,7 +63,7 @@ const Footer = () => {
             <p className="text-sm text-white/70 leading-relaxed">
               A brand of Devereaux and Bhagat Private Limited — delivering
               strategic local SEO and digital marketing for businesses across
-              India and North America.
+              India, Europe and The Caribbean.
             </p>
 
             <div className="flex gap-3 pt-2">
@@ -152,15 +152,15 @@ const Footer = () => {
                 <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center">
                   <MapPin className="w-4 h-4 text-accent" />
                 </div>
-                Noida Sector-62, India
+                India, Europe and The Caribbean
               </li>
 
-              <li className="flex items-center gap-4 text-sm text-white/75">
+              {/* <li className="flex items-center gap-4 text-sm text-white/75">
                 <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center">
                   <Globe className="w-4 h-4 text-accent" />
                 </div>
-                India & North America
-              </li>
+                India, Europe and The Caribbean
+              </li> */}
             </ul>
           </div>
         </div>

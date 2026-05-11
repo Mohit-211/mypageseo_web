@@ -19,7 +19,7 @@ const differentiators = [
   {
     icon: Globe,
     title: "Cross-Market Experience",
-    desc: "We work with businesses across India and North America, understanding the nuances of competitive local markets — from dense urban centers like Delhi NCR and Toronto to suburban and regional service areas. Varying search behaviors, directory ecosystems, and competitive dynamics across markets are built into our approach from the start.",
+    desc: "We work with businesses across India, Europe and The Caribbean, understanding the nuances of competitive local markets — from dense urban centers like Delhi NCR and Toronto to suburban and regional service areas. Varying search behaviors, directory ecosystems, and competitive dynamics across markets are built into our approach from the start.",
   },
 ];
 

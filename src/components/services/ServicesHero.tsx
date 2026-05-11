@@ -28,7 +28,7 @@ const ServicesHero = () => (
           MyPageSEO provides structured, execution-based local SEO and digital
           marketing services that drive measurable calls, leads, and visibility
           — for single-location businesses and multi-location brands across
-          India and North America.
+          India, Europe and The Caribbean.
         </p>
 
         <div className="flex flex-wrap gap-4 pt-2">

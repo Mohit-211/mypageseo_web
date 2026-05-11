@@ -28,8 +28,8 @@ const PricingHero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           MyPageSEO's service pricing is structured around scope, competition
           level, geographic reach, and growth objectives — delivering
-          performance-aligned engagement models for businesses across India and
-          North America.
+          performance-aligned engagement models for businesses across India,
+          Europe and The Caribbean.
         </p>
 
         <div className="flex flex-wrap gap-4 pt-2">

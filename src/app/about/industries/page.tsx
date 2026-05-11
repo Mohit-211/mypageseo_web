@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: "Industries We Serve | MyPageSEO",
   description:
-    "Industry-specific local SEO strategies for healthcare, legal, real estate, home services, retail, education, and professional services across India and North America.",
+    "Industry-specific local SEO strategies for healthcare, legal, real estate, home services, retail, education, and professional services across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -40,8 +40,8 @@ const Hero = () => (
         </h1>
         <p className="text-primary-foreground/75 text-lg lg:text-xl leading-relaxed max-w-2xl">
           MyPageSEO tailors local SEO and digital marketing strategies to the
-          competitive realities of each industry — across India and North
-          America.
+          competitive realities of each industry — across India, Europe and The
+          Caribbean.
         </p>
         <Button variant="hero" size="lg" asChild>
           <Link href="/contact">

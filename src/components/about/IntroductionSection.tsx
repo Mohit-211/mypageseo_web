@@ -20,7 +20,7 @@ const IntroductionSection = () => (
             SEO and digital marketing agency that specializes in Google Business
             Profile optimization, Google Maps ranking strategies, citation
             management, reputation growth, and local conversion strategies for
-            businesses across India and North America.
+            businesses across India, Europe and The Caribbean.
           </p>
 
           <p>

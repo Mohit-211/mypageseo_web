@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageSEO | Local SEO Service | MyPageSEO",
   description:
-    "mypageSEO delivers structured local search optimization, Google Business Profile management, citation alignment, and map pack ranking strategies across India and North America.",
+    "mypageSEO delivers structured local search optimization, Google Business Profile management, citation alignment, and map pack ranking strategies across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -50,7 +50,8 @@ const Hero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageSEO focuses on ranking your business in Google's local pack,
           Google Maps, and geographically targeted search queries — driving
-          calls, directions, and inquiries across India and North America.
+          calls, directions, and inquiries across India, Europe and The
+          Caribbean..
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>

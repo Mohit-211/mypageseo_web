@@ -33,7 +33,7 @@ const sections = [
           <strong>Operating Under:</strong> Devereaux and Bhagat Private Limited
         </p>
         <p>
-          <strong>Location:</strong> Noida Sector-62, India
+          <strong>Location:</strong> Serving Globally
         </p>
         <p>
           <strong>Email:</strong>{" "}

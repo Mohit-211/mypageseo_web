@@ -14,7 +14,7 @@ import MapSection from "@/components/contact/MapSection";
 export const metadata: Metadata = {
   title: "Contact | MyPageSEO",
   description:
-    "Connect with MyPageSEO for local SEO services, digital marketing strategy, and platform inquiries. Serving businesses across India and North America.",
+    "Connect with MyPageSEO for local SEO services, digital marketing strategy, and platform inquiries. Serving businesses across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -42,9 +42,9 @@ const Hero = () => (
         </h1>
 
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
-          Businesses across India and North America connect with MyPageSEO for
-          local SEO strategy, digital marketing services, and platform
-          inquiries. Every conversation starts with understanding your
+          Businesses across India, Europe and The Caribbean connect with
+          MyPageSEO for local SEO strategy, digital marketing services, and
+          platform inquiries. Every conversation starts with understanding your
           objectives.
         </p>
 

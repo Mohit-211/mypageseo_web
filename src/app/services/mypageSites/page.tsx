@@ -22,7 +22,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageSites | SEO-Ready Website Development | MyPageSEO",
   description:
-    "mypageSites builds fast, SEO-ready, mobile-first websites engineered for local search visibility, structured architecture, and measurable conversion growth across India and North America.",
+    "mypageSites builds fast, SEO-ready, mobile-first websites engineered for local search visibility, structured architecture, and measurable conversion growth across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -49,7 +49,7 @@ const Hero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageSites delivers SEO-ready, fast-loading, mobile-first websites
           designed to rank in local search and convert visitors into inquiries —
-          across India and North America.
+          across India, Europe and The Caribbean..
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>

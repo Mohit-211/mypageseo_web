@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageSMO | Social Media Optimization | MyPageSEO",
   description:
-    "mypageSMO delivers structured social media optimization, strategic brand positioning, engagement management, and local audience growth across India and North America.",
+    "mypageSMO delivers structured social media optimization, strategic brand positioning, engagement management, and local audience growth across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -50,7 +50,7 @@ const Hero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageSMO focuses on strategic content positioning, audience growth,
           engagement management, and consistent local brand presence — building
-          trust and authority across India and North America.
+          trust and authority across India, Europe and The Caribbean..
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>

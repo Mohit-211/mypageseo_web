@@ -208,7 +208,7 @@ const sections = [
             Limited
           </p>
           <p>
-            <strong>Address:</strong> Noida Sector-62, India
+            <strong>Location:</strong>Servicing Globally
           </p>
           <p>
             <strong>Email:</strong>{" "}

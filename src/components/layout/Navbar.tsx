@@ -1,10 +1,10 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NavLink } from "./NavLink";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -47,24 +47,20 @@ const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
-  /* Scroll shrink effect */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Lock body scroll when mobile menu is open */
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -101,15 +97,17 @@ const Navbar = () => {
               onMouseEnter={() => item.children && setOpenDropdown(item.label)}
               onMouseLeave={() => setOpenDropdown(null)}
             >
-              <Link
+              <NavLink
                 href={item.href}
+                exact={item.href === "/"}
                 className="flex items-center gap-1 text-base font-medium text-foreground/85 hover:text-accent transition-colors"
+                activeClassName="text-accent font-semibold"
               >
                 {item.label}
                 {item.children && (
                   <ChevronDown className="w-4 h-4 opacity-70 group-hover:rotate-180 transition-transform duration-200" />
                 )}
-              </Link>
+              </NavLink>
 
               {item.children && openDropdown === item.label && (
                 <div className="absolute top-full left-0 w-56 pt-2">
@@ -157,14 +155,15 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-6 space-y-3">
             {navItems.map((item) => (
               <div key={item.label}>
-                <Link
+                <NavLink
                   href={item.href}
+                  exact={item.href === "/"}
                   className="block py-3 text-base font-medium text-foreground/85 hover:text-accent transition-colors"
+                  activeClassName="text-accent font-semibold"
                   onClick={() => !item.children && setMobileOpen(false)}
                 >
                   {item.label}
-                </Link>
-
+                </NavLink>
                 {item.children && (
                   <div className="pl-4 space-y-2">
                     {item.children.map((child) => (
@@ -181,7 +180,6 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-
             <div className="pt-4">
               <Button variant="cta" className="w-full" size="lg" asChild>
                 <Link href="/contact" onClick={() => setMobileOpen(false)}>

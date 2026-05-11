@@ -21,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: "mypageRepo | Reputation Management Service | MyPageSEO",
   description:
-    "mypageRepo delivers structured review monitoring, ethical rating growth, sentiment analysis, and reputation-driven visibility strategies for businesses across India and North America.",
+    "mypageRepo delivers structured review monitoring, ethical rating growth, sentiment analysis, and reputation-driven visibility strategies for businesses across India, Europe and The Caribbean.",
 };
 
 /* ═══ HERO ═══ */
@@ -48,7 +48,7 @@ const Hero = () => (
         <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
           mypageRepo focuses on structured review monitoring, strategic response
           frameworks, rating improvement, and reputation-driven visibility
-          growth — across India and North America.
+          growth — across India, Europe and The Caribbean.
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <Button variant="hero" size="lg" asChild>
