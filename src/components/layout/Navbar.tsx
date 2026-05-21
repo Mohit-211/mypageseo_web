@@ -16,6 +16,8 @@ const navItems = [
       { label: "Industries We Serve", href: "/industries" },
     ],
   },
+  //UPDATED NOW
+
   {
     label: "Services",
     href: "/services",
@@ -29,6 +31,7 @@ const navItems = [
       { label: "mypageSites", href: "/services/mypagesites" },
     ],
   },
+
   {
     label: "Product",
     href: "/product",
