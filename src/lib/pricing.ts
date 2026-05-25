@@ -17,6 +17,12 @@ export const PRICING = {
     setup: 500,
     razorpayPlanId: "plan_Staa3moHYXKXT3",
   },
+  Test: {
+    name: "Test",
+    monthly: 1,
+    setup: 1,
+    razorpayPlanId: "plan_StdGqWPHoFCMSL",
+  },
 } as const;
 
 export type PlanKey = keyof typeof PRICING;

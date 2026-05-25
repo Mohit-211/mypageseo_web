@@ -25,7 +25,7 @@ export default function PlanSelector({ selected, onSelect }: any) {
             </p>
 
             <p className="text-sm text-muted-foreground mt-1">
-              Setup: ${(plan.setup / 100).toFixed(2)}
+              Setup: ${plan.setup}
             </p>
           </div>
         );
