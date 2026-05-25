@@ -50,9 +50,10 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
         {...props}
       >
         {props.children}
+
         <span
           className={cn(
-            "absolute left-0 -bottom-1 h-[2px] w-full bg-[#CE2C29] transition-all duration-300",
+            "absolute left-0 -bottom-1 h-[2px] w-full bg-brand-red transition-all duration-300",
             isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
           )}
         />

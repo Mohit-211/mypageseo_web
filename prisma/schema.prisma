@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscription {
+  id                     Int      @id @default(autoincrement())
+
+  name                   String
+  email                  String
+  business               String?
+
+  plan                   String
+
+  razorpayPaymentId      String?  @unique(map: "payment_unique")
+  razorpayOrderId        String?
+  razorpaySubscriptionId String?  @unique(map: "subscription_unique")
+
+  status                 String   @default("pending")
+
+  amount                 Int
+  currency               String
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
