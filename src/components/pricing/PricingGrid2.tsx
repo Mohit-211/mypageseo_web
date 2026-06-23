@@ -8,7 +8,7 @@ const plans = [
   {
     name: "Base",
     label: "BEST FOR: Getting started",
-    tagline: "Build a strong local presence for your first location",
+    tagline: "Local SEO setup for one business location",
     pricing: {
       INR: { monthly: "₹17,500", setup: "₹5,000" },
       USD: { monthly: "$249", setup: "$200" },
@@ -26,16 +26,18 @@ const plans = [
       "3 Google Business Profile posts every month",
       "Monthly performance report",
       "Email support",
+      // "On-page SEO for 7 target keywords",
+      // "Keyword rank tracking report (10 keywords)",
     ],
   },
   {
     name: "Standard",
     label: "MOST POPULAR",
-    tagline: "Consistent growth and visibility for your core location",
+    tagline: "Full local SEO management for one location",
     pricing: {
       INR: { monthly: "₹32,500", setup: "₹10,000" },
       USD: { monthly: "$399", setup: "$350" },
-      EUR: { monthly: "€349", setup: "$300" },
+      EUR: { monthly: "€349", setup: "€300" },
     },
     featured: true,
     icon: Target,
@@ -52,11 +54,11 @@ const plans = [
   {
     name: "Elite",
     label: "BEST FOR: Scaling",
-    tagline: "Scale your visibility across multiple locations effortlessly",
+    tagline: "Local SEO management across multiple locations",
     pricing: {
       INR: { monthly: "₹47,500", setup: "₹15,000" },
       USD: { monthly: "$549", setup: "$500" },
-      EUR: { monthly: "€499", setup: "$450" },
+      EUR: { monthly: "€499", setup: "€450" },
     },
     featured: false,
     icon: Building,
@@ -89,17 +91,14 @@ const plans = [
 
 const PricingGrid = () => {
   const [currency, setCurrency] = useState("INR");
-
   useEffect(() => {
     const detected = document.body.dataset.currency;
     if (detected) setCurrency(detected);
   }, []);
-
   const handleToggle = (cur: string) => {
     setCurrency(cur);
     document.cookie = `currency=${cur}; path=/`;
   };
-
   return (
     <section className="py-24 bg-secondary">
       <div className="container mx-auto px-4 lg:px-8">
@@ -116,7 +115,6 @@ const PricingGrid = () => {
             measurable results.
           </p>
         </div>
-
         {/* Toggle */}
         <div className="flex justify-center mb-14">
           <div className="flex bg-background border border-border rounded-xl p-1 shadow-sm">
@@ -135,120 +133,80 @@ const PricingGrid = () => {
             ))}
           </div>
         </div>
-
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {plans.map((plan) => {
             const price = plan.pricing?.[currency as keyof typeof plan.pricing];
-            const inheritedLine = plan.features.find((f) =>
-              f.startsWith("Everything in")
-            );
-            const listFeatures = plan.features.filter(
-              (f) => !f.startsWith("Everything in")
-            );
-
             return (
               <div
                 key={plan.name}
-                className={`relative flex flex-col h-full rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${
+                className={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 ${
                   plan.featured
-                    ? "bg-card border-2 border-accent shadow-xl lg:scale-[1.02]"
+                    ? "bg-card border-2 border-accent shadow-xl scale-[1.02]"
                     : "bg-card border border-border hover:shadow-lg"
                 }`}
               >
-                {plan.featured && (
-                  <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-2xl bg-accent" />
-                )}
-
-                <span className="inline-flex self-start items-center px-3 py-1 rounded-full bg-accent/10 text-accent text-[11px] font-bold uppercase tracking-wider mb-5">
+                {/* Label */}
+                <span className="text-xs font-semibold text-accent mb-3">
                   {plan.label}
                 </span>
-
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                {/* Title */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
                     <plan.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold tracking-tight">
-                    {plan.name}
-                  </h3>
+                  <h3 className="text-xl font-bold">{plan.name}</h3>
                 </div>
-
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                <p className="text-sm text-muted-foreground mb-6">
                   {plan.tagline}
                 </p>
-
-                <div className="h-px bg-border mb-6" />
-
                 {/* Price */}
                 {price ? (
                   <>
-                    <div className="mb-3">
-                      <span className="text-3xl font-bold tracking-tight">
+                    <div className="mb-2">
+                      <span className="text-3xl font-bold">
                         {price.monthly}
                       </span>
                       <span className="text-xs text-muted-foreground ml-1">
                         /month
                       </span>
                     </div>
-                    <div className="inline-flex items-center gap-1.5 text-xs bg-secondary px-2.5 py-1 rounded-md mb-6">
-                      <span className="text-muted-foreground">Setup:</span>
-                      <span className="font-semibold">{price.setup}</span>
+                    <div className="mb-6 text-sm text-muted-foreground">
+                      Setup: {price.setup}
                     </div>
                   </>
                 ) : (
-                  <div className="mb-6 text-2xl font-bold tracking-tight">
+                  <div className="mb-6 text-lg font-semibold">
                     Custom Pricing
                   </div>
                 )}
-
-                <div className="h-px bg-border mb-6" />
-
                 {/* What you get */}
-                <p className="text-sm font-semibold mb-4 flex items-center gap-2">
-                  <span className="w-1 h-4 bg-accent rounded-full" />
-                  What you get
-                </p>
-
-                {inheritedLine && (
-                  <div className="mb-4 pb-3 border-b border-dashed border-border">
-                    <span className="text-xs font-semibold text-accent">
-                      {inheritedLine}
-                    </span>
-                  </div>
-                )}
-
-                <ul className="space-y-3.5 mb-8 flex-1">
-                  {listFeatures.map((f) => (
+                <p className="text-sm font-medium mb-3">What you get:</p>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {plan.features.map((f) => (
                     <li
                       key={f}
-                      className="flex items-start gap-3 text-sm text-muted-foreground leading-snug"
+                      className="flex gap-2 text-sm text-muted-foreground"
                     >
-                      <span className="mt-[2px] w-5 h-5 min-w-[20px] min-h-[20px] flex items-center justify-center rounded-full bg-accent/10 shrink-0">
-                        <Check
-                          className="w-3 h-3 text-accent"
-                          strokeWidth={3}
-                        />
-                      </span>
-                      <span className="leading-snug">{f}</span>
+                      <Check className="w-4 h-4 text-accent mt-1" />
+                      {f}
                     </li>
                   ))}
                 </ul>
-
                 {/* CTA */}
-                <div className="mt-auto pt-6 border-t border-border">
-                  <Button
-                    variant={plan.featured ? "cta" : "outline"}
-                    className="w-full"
-                    asChild
-                  >
-                    <Link href="/contact">
-                      {plan.pricing ? "Get Started" : "Talk to Us"}
-                    </Link>
-                  </Button>
-                  <p className="text-xs text-muted-foreground text-center mt-3">
-                    No long-term contracts
-                  </p>
-                </div>
+                <Button
+                  variant={plan.featured ? "cta" : "outline"}
+                  className="w-full"
+                  asChild
+                >
+                  <Link href="/contact">
+                    {plan.pricing ? "Get Started" : "Talk to Us"}
+                  </Link>
+                </Button>
+                {/* Trust line */}
+                <p className="text-xs text-muted-foreground text-center mt-3">
+                  No long-term contracts
+                </p>
               </div>
             );
           })}
