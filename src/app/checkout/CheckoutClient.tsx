@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import Script from "next/script";
+import { useState, useEffect } from "react";
+import { AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 import PlanSelector from "@/components/checkout/PlanSelector";
-import CouponBox from "@/components/checkout/CouponBox";
+import CouponBox, { type CouponData } from "@/components/checkout/CouponBox";
 import OrderSummary from "@/components/checkout/OrderSummary";
-import UserForm from "@/components/checkout/UserForm";
-import { PlanKey } from "@/lib/pricing";
+import UserForm, { type UserData } from "@/components/checkout/UserForm";
+import { getSubscriptionPlans, createSubscriptionOrder } from "../../api/Api";
+
+export type Plan = {
+  _id: string;
+  name: string;
+  monthly_price: number;
+  setup_fee: number;
+  is_active: boolean;
+  description?: string | null;
+};
 
 type PricingResult = {
   monthly: number;
@@ -15,164 +24,275 @@ type PricingResult = {
   discount: number;
 };
 
-type UserData = {
-  name?: string;
-  email?: string;
-  business?: string;
+// Dynamically load the Razorpay script (same approach as your working test)
+const loadRazorpay = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    if ((window as any).Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 };
 
 export default function CheckoutClient() {
-  const [plan, setPlan] = useState<PlanKey | null>(null);
-  const [coupon, setCoupon] = useState("");
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [plansLoading, setPlansLoading] = useState(true);
+  const [plansError, setPlansError] = useState<string | null>(null);
+
+  const [plan, setPlan] = useState<string | null>(null);
+  const [couponData, setCouponData] = useState<CouponData | null>(null);
   const [pricing, setPricing] = useState<PricingResult | null>(null);
   const [user, setUser] = useState<UserData>({});
   const [loading, setLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        setPlansLoading(true);
+        setPlansError(null);
+        const response = await getSubscriptionPlans();
+        setPlans(response.data || []);
+      } catch (error) {
+        console.error("Failed to load plans:", error);
+        setPlansError("Failed to load subscription plans. Please refresh the page.");
+      } finally {
+        setPlansLoading(false);
+      }
+    };
+    fetchPlans();
+  }, []);
+
+  const isFormValid =
+    !!plan &&
+    !!pricing &&
+    !!user.name?.trim() &&
+    !!user.email?.trim() &&
+    !!user.mobile?.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email || "") &&
+    /^[6-9]\d{9}$/.test(user.mobile || "");
 
   const handlePayment = async () => {
-    if (!plan || !pricing) {
-      alert("Select a plan first");
-      return;
-    }
+    setPaymentError(null);
 
-    if (!user.name || !user.email) {
-      alert("Enter your details");
+    if (!plan || !pricing || !user.name || !user.email || !user.mobile) {
+      setPaymentError("Please fill in all required fields");
       return;
     }
 
     try {
       setLoading(true);
 
-      const res = await fetch("/api/payments/create-subscription", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          plan,
-          couponCode: coupon,
-          name: user.name,
-          email: user.email,
-          business: user.business,
-        }),
-      });
-
-      const data = await res.json();
-
-      const Razorpay = (window as any).Razorpay;
-
-      if (!Razorpay || !data?.subscription?.id) {
-        alert("Payment init failed");
-        setLoading(false);
-        return;
+      // 1. Load Razorpay SDK dynamically (same as your working test)
+      const loaded = await loadRazorpay();
+      if (!loaded) {
+        throw new Error("Failed to load Razorpay SDK. Please refresh and try again.");
       }
 
-      const rzp = new Razorpay({
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        subscription_id: data.subscription.id,
-        name: "MyPageSEO",
-        description: `${plan} Plan`,
-        handler: async (response: any) => {
-          await fetch("/api/payments/verify", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...response,
-              couponId: data.couponId,
-            }),
-          });
-
-          window.location.href = "/thank-you";
-        },
-        modal: {
-          ondismiss: () => setLoading(false),
-        },
+      // 2. Create order via your API
+      const res = await createSubscriptionOrder({
+        name: user.name,
+        email: user.email,
+        mobile: user.mobile,
+        plan_id: plan,
+        ...(couponData?.coupon_code ? { coupon_code: couponData.coupon_code } : {}),
       });
 
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong");
+      console.log("ORDER RESPONSE", res);
+
+      if (!res?.success) {
+        throw new Error(res?.message || "Failed to create order");
+      }
+
+      // 3. Your API returns: { key, amount, currency, order_id }
+      const data = res.data;
+
+      // 4. Open Razorpay — exactly like your working test
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.order_id,
+        name: "My Page SEO",
+        description: `${plans.find((p) => p._id === plan)?.name || ""} Plan`,
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.mobile,
+        },
+        handler: function (response: any) {
+          console.log("PAYMENT SUCCESS", response);
+          // Redirect to thank-you — add server-side verification here if needed
+          window.location.href = `/thank-you?payment_id=${response.razorpay_payment_id}`;
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            setPaymentError("Payment was cancelled. You can try again.");
+          },
+        },
+        theme: {
+          color: "#E53E3E",
+        },
+      };
+
+      const razorpay = new (window as any).Razorpay(options);
+
+      razorpay.on("payment.failed", (response: any) => {
+        console.error("Payment failed:", response.error);
+        setPaymentError(response.error?.description || "Payment failed. Please try again.");
+        setLoading(false);
+      });
+
+      razorpay.open();
+
+    } catch (err: any) {
+      console.error("Payment error:", err);
+      setPaymentError(
+        err?.response?.data?.message ||
+        err?.message ||
+        "Something went wrong. Please try again."
+      );
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <Script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"
-      />
-
-      <div className="bg-brand-light/40 min-h-screen">
-        {/* HERO (fixes navbar clash) */}
-        <div className="bg-white border-b">
-          <div className="max-w-6xl mx-auto px-4 pt-24 pb-10">
-            <h1 className="text-3xl md:text-4xl font-heading font-bold">
+    <div className="bg-brand-light min-h-screen">
+      {/* HERO */}
+      <div className="bg-white border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 pt-24 pb-10">
+          <div className="space-y-2">
+            <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
               Complete Your Setup
             </h1>
-            <p className="text-muted-foreground mt-2">
-              Choose your plan and start generating SEO reports.
+            <p className="text-lg text-muted-foreground">
+              Choose your plan and start generating powerful SEO reports today.
             </p>
           </div>
         </div>
+      </div>
 
-        {/* MAIN */}
+      {/* LOADING */}
+      {plansLoading && (
+        <div className="max-w-6xl mx-auto px-4 py-20 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-8 h-8 text-brand-red animate-spin" />
+            <p className="text-muted-foreground">Loading plans...</p>
+          </div>
+        </div>
+      )}
+
+      {/* ERROR */}
+      {plansError && !plansLoading && (
         <div className="max-w-6xl mx-auto px-4 py-12">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 flex gap-4">
+            <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-red-900">Unable to load plans</h3>
+              <p className="text-red-800 text-sm mt-1">{plansError}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MAIN */}
+      {!plansLoading && plans.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* LEFT */}
-            <div className="space-y-8">
-              <div className="bg-white border rounded-xl p-6 shadow-card">
-                <h2 className="text-lg font-semibold mb-5">Choose Plan</h2>
-                <PlanSelector selected={plan} onSelect={setPlan} />
+            <div className="lg:col-span-2 space-y-8">
+              <div>
+                <h2 className="text-2xl font-heading font-bold mb-6 text-foreground">
+                  Select Your Plan
+                </h2>
+                <PlanSelector plans={plans} selected={plan} onSelect={setPlan} />
               </div>
 
               {plan && (
                 <>
-                  <div className="bg-white border rounded-xl p-6 shadow-card">
-                    <h3 className="font-semibold mb-3">Apply Coupon</h3>
-                    <CouponBox coupon={coupon} setCoupon={setCoupon} />
+                  <div className="bg-white border border-border rounded-xl p-6 shadow-card">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+                      <span>Apply Coupon</span>
+                      {couponData && <CheckCircle2 className="w-5 h-5 text-green-600" />}
+                    </h3>
+                    <CouponBox
+                      planId={plan}
+                      onCouponValidated={setCouponData}
+                    />
                   </div>
 
-                  <div className="bg-white border rounded-xl p-6 shadow-card">
-                    <h3 className="font-semibold mb-3">Your Details</h3>
+                  <div className="bg-white border border-border rounded-xl p-6 shadow-card">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground">
+                      Your Details
+                    </h3>
                     <UserForm user={user} setUser={setUser} />
                   </div>
                 </>
               )}
             </div>
-
-            {/* RIGHT */}
+{plan &&
+            
             <div className="lg:sticky lg:top-28 h-fit">
-              <div className="bg-white border rounded-2xl p-8 shadow-elevated">
-                <h3 className="text-xl font-semibold mb-6">Order Summary</h3>
+              <div className="bg-white border border-border rounded-2xl p-8 shadow-elevated">
+                <h3 className="text-2xl font-heading font-bold mb-8 text-foreground">
+                  Order Summary
+                </h3>
 
-                <OrderSummary
-                  plan={plan}
-                  coupon={coupon}
-                  setPricing={setPricing}
-                />
+                {plan ? (
+                  <>
+                    <OrderSummary
+                      plan={plans.find((p) => p._id === plan) || null}
+                      couponData={couponData}
+                      setPricing={setPricing}
+                    />
 
-                <button
-                  onClick={handlePayment}
-                  disabled={!plan || !user.name || !user.email || loading}
-                  className="mt-8 w-full py-3 rounded-lg font-semibold text-white
-                  bg-brand-red hover:bg-brand-red-hover transition-all duration-200
-                  shadow-md hover:shadow-lg active:scale-[0.98]
-                  disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? "Processing..." : "Secure Payment"}
-                </button>
+                    {paymentError && (
+                      <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4 flex gap-3">
+                        <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-red-800">{paymentError}</p>
+                      </div>
+                    )}
 
-                <p className="text-xs text-muted-foreground mt-3 text-center">
-                  Secured by Razorpay • Cancel anytime
-                </p>
+                    <button
+                      onClick={handlePayment}
+                      disabled={!isFormValid || loading}
+                      className="mt-8 w-full py-4 rounded-lg font-semibold text-white text-lg
+                        bg-brand-red hover:bg-brand-red-hover transition-all duration-200
+                        shadow-md hover:shadow-lg active:scale-[0.98]
+                        disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100
+                        flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        "Secure Payment"
+                      )}
+                    </button>
+
+                    <p className="text-xs text-muted-foreground mt-4 text-center">
+                      🔒 Secured by Razorpay • Cancel anytime
+                    </p>
+                  </>
+                ) : (
+                  <div className="py-8 text-center text-muted-foreground">
+                    <p>Select a plan to see pricing</p>
+                  </div>
+                )}
               </div>
             </div>
+}
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }

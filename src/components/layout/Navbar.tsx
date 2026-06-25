@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "./NavLink";
-
+import { usePathname } from "next/navigation";
 const navItems = [
   { label: "Home", href: "/" },
   {
@@ -37,16 +37,19 @@ const navItems = [
       { label: "About", href: "/product/about" },
       { label: "Features", href: "/product/features" },
       { label: "Pricing", href: "/product/pricing" },
+      
     ],
   },
   { label: "Pricing", href: "/pricing" },
+ 
+
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-
+const pathname = usePathname();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -61,6 +64,15 @@ const Navbar = () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+useEffect(() => {
+  const seotoken = localStorage.getItem("seotoken");
+
+  if (seotoken) {
+    setIsLoggedIn(true);
+  }
+}, []);
 
   return (
     <nav
@@ -136,7 +148,21 @@ const Navbar = () => {
               Contact Us
             </button>
           </Link>
-
+{isLoggedIn ? (
+  <Link href="/dashboard">
+    <button className="px-6 py-2.5 rounded-lg font-semibold text-white bg-gradient-to-r from-[#CE2C29] to-[#b82624]">
+      Dashboard
+    </button>
+  </Link>
+) : (
+  pathname !== "/auth/login" && (
+    <Link href="/auth/login">
+      <button className="px-6 py-2.5 rounded-lg font-semibold text-white bg-gradient-to-r from-[#CE2C29] to-[#b82624]">
+        Login
+      </button>
+    </Link>
+  )
+)}
           {/* Primary - Get Started */}
           <Link href="/checkout">
             <button

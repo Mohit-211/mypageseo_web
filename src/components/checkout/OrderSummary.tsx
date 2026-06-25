@@ -1,101 +1,98 @@
 "use client";
 
-import { PRICING, PlanKey } from "@/lib/pricing";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Plan } from "@/app/checkout/CheckoutClient";
+import { CouponData } from "@/components/checkout/CouponBox";
 
-type PricingResult = {
-  monthly: number;
-  setup: number;
-  discount: number;
-  valid?: boolean;
-  message?: string;
+type OrderSummaryProps = {
+  plan: Plan | null;
+  couponData: CouponData | null;
+  setPricing: (pricing: { monthly: number; setup: number; discount: number }) => void;
 };
 
-type Props = {
-  plan: PlanKey | null;
-  coupon: string;
-  setPricing: (val: PricingResult) => void;
-};
-
-export default function OrderSummary({ plan, coupon, setPricing }: Props) {
-  const [pricing, setLocalPricing] = useState<PricingResult | null>(null);
-  const [loading, setLoading] = useState(false);
+export default function OrderSummary({ plan, couponData, setPricing }: OrderSummaryProps) {
+  const discount = couponData?.discount_amount ?? 0;
+  const setupFee = plan?.setup_fee ?? 0;
+  const monthlyPrice = plan?.monthly_price ?? 0;
+  const totalFirstMonth = setupFee + monthlyPrice - discount;
 
   useEffect(() => {
-    const fetchPricing = async () => {
-      if (!plan) return;
+    if (!plan) return;
+    setPricing({ monthly: monthlyPrice, setup: setupFee, discount });
+  }, [plan, couponData, monthlyPrice, setupFee, discount, setPricing]);
 
-      setLoading(true);
-
-      try {
-        const res = await fetch("/api/payments/preview", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ plan, coupon }),
-        });
-
-        const data = await res.json();
-
-        setLocalPricing(data);
-        setPricing(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPricing();
-  }, [plan, coupon]);
-
-  if (!plan || !pricing) return null;
-
-  const base = PRICING[plan];
+  if (!plan) {
+    return (
+      <div className="space-y-4 py-8 text-center text-muted-foreground">
+        <p className="text-sm">Select a plan to see pricing details</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-3 text-sm">
-      <div className="flex justify-between">
-        <span>Plan</span>
-        <span className="font-medium">{base.name}</span>
+    <div className="space-y-6">
+      {/* Plan Name */}
+      <div className="pb-4 border-b border-border">
+        <p className="text-sm text-muted-foreground">Selected Plan</p>
+        <p className="text-xl font-semibold text-foreground mt-1">{plan.name}</p>
       </div>
 
-      {loading ? (
-        <p className="text-muted-foreground">Updating price...</p>
-      ) : (
-        <>
-          <div className="flex justify-between">
-            <span>Monthly</span>
-            <span>${(pricing.monthly / 100).toFixed(2)}</span>
+      {/* Pricing Breakdown */}
+      <div className="space-y-3">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-foreground">Monthly Subscription</span>
+          <span className="font-semibold text-foreground">${monthlyPrice}</span>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-foreground">Setup Fee</span>
+          <span className="font-semibold text-foreground">${setupFee}</span>
+        </div>
+
+        {/* Show coupon row whenever couponData exists, even if discount is 0 */}
+        {couponData && (
+          <div className="flex justify-between items-center text-green-700 bg-green-50 -mx-3 px-3 py-2 rounded">
+            <span className="text-sm font-medium">
+              {couponData.coupon_code}
+              {couponData.discount_percentage > 0 && (
+                <span className="ml-1 text-green-600">({couponData.discount_percentage}% off)</span>
+              )}
+            </span>
+            <span className="font-semibold">
+              {discount > 0 ? `-$${discount}` : "Applied"}
+            </span>
           </div>
+        )}
+      </div>
 
-          <div className="flex justify-between">
-            <span>Setup Fee</span>
-            <span>${(pricing.setup / 100).toFixed(2)}</span>
-          </div>
+      {/* Total for First Month */}
+      <div className="bg-gradient-to-r from-brand-red/10 to-brand-red/5 rounded-lg p-4 space-y-2 border border-brand-red/20">
+        <p className="text-sm text-muted-foreground">Total for First Month</p>
+        <div className="flex justify-between items-baseline">
+          <span className="text-3xl font-heading font-bold text-brand-red">
+            ${totalFirstMonth}
+          </span>
+          <span className="text-sm text-muted-foreground">
+            then ${monthlyPrice}/month
+          </span>
+        </div>
+      </div>
 
-          {pricing.discount > 0 && (
-            <div className="flex justify-between text-green-600">
-              <span>Discount</span>
-              <span>-${(pricing.discount / 100).toFixed(2)}</span>
-            </div>
-          )}
-
-          {coupon && (
-            <p
-              className={`text-xs ${
-                pricing.valid ? "text-green-600" : "text-red-500"
-              }`}
-            >
-              {pricing.message}
-            </p>
-          )}
-
-          <div className="border-t pt-4 flex justify-between text-base font-semibold">
-            <span>Total Today</span>
-            <span>${((pricing.monthly + pricing.setup) / 100).toFixed(2)}</span>
-          </div>
-        </>
-      )}
+      {/* Info */}
+      <div className="pt-2 text-xs text-muted-foreground space-y-2">
+        <div className="flex gap-2">
+          <span className="text-brand-red mt-0.5">•</span>
+          <span>Setup fee is charged once at signup</span>
+        </div>
+        <div className="flex gap-2">
+          <span className="text-brand-red mt-0.5">•</span>
+          <span>Monthly billing starts immediately</span>
+        </div>
+        <div className="flex gap-2">
+          <span className="text-brand-red mt-0.5">•</span>
+          <span>Cancel anytime with no questions asked</span>
+        </div>
+      </div>
     </div>
   );
 }
